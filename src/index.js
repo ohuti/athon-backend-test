@@ -12,6 +12,5 @@ const app = express()
 console.log('SERVER LOGS: [+]')
 console.log('DATABASE LOGS: [*]')
 
-app.listen(PORT, () => console.log(`[+] App running on PORT ${PORT}`))
-
 app.use('/', mainRouter)
+app.listen(PORT, () => console.log(`[+] App running on PORT ${PORT}`))
