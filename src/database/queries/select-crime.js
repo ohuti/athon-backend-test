@@ -4,7 +4,7 @@ const formatColumnRows = (columnRows) => {
   return columnRows.length === 1 ? columnRows[0] : [ ...columnRows ]
 }
 
-const getCrime = (crime) => {
+const selectCrime = async (crime) => {
   return new Promise((resolve, reject) => {
     athonDB.query(`select distinct
         c.id_crime,
@@ -27,21 +27,21 @@ const getCrime = (crime) => {
         if (error) {
           return reject(error)
         }
-        if(!results.length){
+        if (!results.length) {
           resolve(null)
         }
-  
-        const crimeId = formatColumnRows([ ...new Set(results.map(result => result.id_crime)) ])
-        const victims = [ ...new Set(results.map(result => result.victim_name || 'not_informed')) ]
-        const weaponsWithoutType = [ ...new Set(results.map(result => result.weapon_name || 'not_informed')) ]
-        const weaponType = [ ...new Set(results.map(result => result.weapon_type || 'not_informed')) ]
-        const criminals = [ ...new Set(results.map(result => result.criminal_name || 'not_informed')) ]
-        const crimeTypes = [ ...new Set(results.map(result => result.crime_type || 'not_informed')) ]
-        const country = formatColumnRows([ ...new Set(results.map(result => result.country || 'not_informed')) ])
-        const crimeDate = formatColumnRows([ ...new Set(results.map(result => +new Date(result.crime_date || 'not_informed'))) ])
+
+        const crimeId = formatColumnRows([...new Set(results.map(result => result.id_crime))])
+        const victims = [...new Set(results.map(result => result.victim_name || 'not_informed'))]
+        const weaponsWithoutType = [...new Set(results.map(result => result.weapon_name || 'not_informed'))]
+        const weaponType = [...new Set(results.map(result => result.weapon_type || 'not_informed'))]
+        const criminals = [...new Set(results.map(result => result.criminal_name || 'not_informed'))]
+        const crimeTypes = [...new Set(results.map(result => result.crime_type || 'not_informed'))]
+        const country = formatColumnRows([...new Set(results.map(result => result.country || 'not_informed'))])
+        const crimeDate = formatColumnRows([...new Set(results.map(result => +new Date(result.crime_date || 'not_informed')))])
 
         const weapons = weaponsWithoutType.map((weapon, index) => ({ weapon, weapon_type: weaponType[index] }))
-
+        
         const crime = {
           crimeId,
           victims,
@@ -51,10 +51,11 @@ const getCrime = (crime) => {
           country,
           crimeDate
         }
+
         resolve(crime)
       }
     )
-  }).catch(error => { throw error })
+  }).catch (error => { throw error })
 }
 
-export default getCrime
+export default selectCrime

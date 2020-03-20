@@ -1,6 +1,6 @@
 import athonDB from '../config'
 
-const getWeapons = () => {
+const selectUsedWeapons = async () => {
   return new Promise((resolve, reject) => {
     athonDB.query(`select
         distinct(w.id_weapon),
@@ -16,10 +16,11 @@ const getWeapons = () => {
         const weapons = results.map(result => {
           return { weapon: result.weapon, weapon_type: result.weapon_type }
         })
-        resolve(weapons)
+        
+        resolve (weapons)
       }
     )
   }).catch(error => { throw error })
 }
 
-export default getWeapons
+export default selectUsedWeapons

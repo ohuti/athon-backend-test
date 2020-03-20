@@ -1,11 +1,11 @@
 import express from 'express'
 
 import controllerHandler from '../utils/controller-handler'
-import execute from '../controllers/get-crime'
+import executeGetCrime from '../controllers/get-crime'
 
 const crimeRouter = express.Router()
 
-crimeRouter.get('/:id', controllerHandler(execute))
+crimeRouter.get('/:id', controllerHandler(executeGetCrime))
 
 crimeRouter.post('/', controllerHandler((request, response) => {
   console.log(request.body)

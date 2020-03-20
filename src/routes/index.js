@@ -1,13 +1,13 @@
 import express from 'express'
 
-import usedWeaponsRouter from './used-weapons'
+import weaponRouter from './weapon'
 import crimeRouter from './crime'
 
 const mainRouter = express.Router()
 
 mainRouter.get('/', (request, response) => response.status(200).json({ status: 'OK' }))
 
-mainRouter.use('/used-weapons', usedWeaponsRouter)
+mainRouter.use('/weapon', weaponRouter)
 mainRouter.use('/crime', crimeRouter)
 
 mainRouter.use((request, response) => response.status(404).json({ status: 404, response: 'not_found' }))
