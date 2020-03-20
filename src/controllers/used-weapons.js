@@ -1,24 +1,16 @@
 import getWeapons from "../database/queries/used-weapons"
 
-const execute = (request, response) => {
+const execute = async (request, response) => {
   try {
-    getWeapons((error, results) => {
-      if(error){
-        throw error
-      }
-      
-      console.log(results)
-      const weapons = results.map(result => {
-        return { weapon: result.weapon, weapon_type: result.weapon_type }
-      })
+    const weapons = await getWeapons()
   
-      return response.status(200).json({
-        status: 200,
-        response: 'OK',
-        weapons
-      })
+    return response.status(200).json({
+      status: 200,
+      response: 'OK',
+      weapons
     })
   } catch (error) {
+    throw error
   }
 }
 
