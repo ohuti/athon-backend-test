@@ -32,13 +32,13 @@ const getCrime = (crime) => {
         }
   
         const crimeId = formatColumnRows([ ...new Set(results.map(result => result.id_crime)) ])
-        const victims = formatColumnRows([ ...new Set(results.map(result => result.victim_name)) ])
-        const weaponsWithoutType = formatColumnRows([ ...new Set(results.map(result => result.weapon_name)) ])
-        const weaponType = formatColumnRows([ ...new Set(results.map(result => result.weapon_type)) ])
-        const criminals = formatColumnRows([ ...new Set(results.map(result => result.criminal_name)) ])
-        const crimeTypes = formatColumnRows([ ...new Set(results.map(result => result.crime_type)) ])
-        const country = formatColumnRows([ ...new Set(results.map(result => result.country)) ])
-        const crimeDate = formatColumnRows([ ...new Set(results.map(result => +new Date(result.crime_date))) ])
+        const victims = [ ...new Set(results.map(result => result.victim_name || 'not_informed')) ]
+        const weaponsWithoutType = [ ...new Set(results.map(result => result.weapon_name || 'not_informed')) ]
+        const weaponType = [ ...new Set(results.map(result => result.weapon_type || 'not_informed')) ]
+        const criminals = [ ...new Set(results.map(result => result.criminal_name || 'not_informed')) ]
+        const crimeTypes = [ ...new Set(results.map(result => result.crime_type || 'not_informed')) ]
+        const country = formatColumnRows([ ...new Set(results.map(result => result.country || 'not_informed')) ])
+        const crimeDate = formatColumnRows([ ...new Set(results.map(result => +new Date(result.crime_date || 'not_informed'))) ])
 
         const weapons = weaponsWithoutType.map((weapon, index) => ({ weapon, weapon_type: weaponType[index] }))
 
