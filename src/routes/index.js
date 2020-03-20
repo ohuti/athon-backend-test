@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express from 'express'
 
 import usedWeaponsRouter from './used-weapons'
 import crimeRouter from './crime'
@@ -28,7 +28,7 @@ mainRouter.use((error, request, response, next) => {
     return
   }
 
-  console.error(error)
+  console.error('[+]', error)
   response.status(500).json({ status: 500, response: 'internal_server_error' })
 })
 
