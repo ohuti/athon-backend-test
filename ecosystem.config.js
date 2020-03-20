@@ -7,10 +7,10 @@ module.exports = {
       MYSQL: {
         HOST: 'localhost',
         USER: 'root',
-        KEY: 'athonbackendtest',
+        KEY: 'athondatabase',
         DATABASE: 'police'
       },
-      PORT: 3000
+      PORT: 8080
     }
   }]
 }
