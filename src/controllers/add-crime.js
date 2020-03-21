@@ -12,6 +12,14 @@ import saveWeaponCrime from '../database/queries/weapon_crime/save-weapon-crime'
 import saveWeapon from '../database/queries/weapon/save-weapon'
 
 import findCriminalIdByName from '../database/queries/criminal/find-criminal-id-by-name'
+import saveCriminal from '../database/queries/criminal/save-criminal'
+
+import saveCriminalCrime from '../database/queries/criminal-crime/save-criminal-crime'
+import updateCriminalCrimeCrimeType from '../database/queries/criminal-crime/update-criminal-crime-crime-type'
+
+import findCrimeTypeIdByName from '../database/queries/crime_type/find-crime-type-id-by-name'
+import saveCrimeType from '../database/queries/crime_type/save-crime-type'
+
 
 const timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -24,13 +32,13 @@ const executeAddCrime = async (request, response) => {
   const { victims, weapons, criminals, crime_type, country } = request.body
   const newCrimeId = await saveCrime(country)
 
-  victims.forEach(async victim => {
+  await victims.forEach(async victim => {
     victim = await capitalizeFirstLetter(victim)
     const victimId = await findVictimIdByName(victim) || await insertVictim(victim)
     await saveVictimCrime( victimId, newCrimeId )
   })
 
-  weapons.forEach(async weapon => {
+  await weapons.forEach(async weapon => {
     weapon.weapon_type = await capitalizeFirstLetter(weapon.weapon_type)
     weapon.weapon = await capitalizeFirstLetter(weapon.weapon)
     const weaponTypeId = await findWeaponTypeIdByName(weapon.weapon_type) || await saveWeaponType(weapon.weapon_type)
@@ -38,12 +46,19 @@ const executeAddCrime = async (request, response) => {
     await saveWeaponCrime( weaponId, newCrimeId )
   })
 
-  // await criminals.forEach(async criminal => {
-  //   criminal = await capitalizeFirstLetter(criminal)
-  //   const criminalId = await findCriminalIdByName(criminal)
-  // })
+  await criminals.forEach(async criminal => {
+    criminal = await capitalizeFirstLetter(criminal)
+    const criminalId = await findCriminalIdByName(criminal) || await saveCriminal(criminal)
+    await saveCriminalCrime(criminalId, newCrimeId)
+  })
 
-  await timeout(1000)
+  await crime_type.forEach(async crimeType => {
+    crimeType = await capitalizeFirstLetter(crimeType)
+    const crimeTypeId = await findCrimeTypeIdByName(crimeType) || await saveCrimeType(crimeType)
+    await updateCriminalCrimeCrimeType(newCrimeId, crimeTypeId)
+  })
+
+  await timeout(1500)
   const crime = await findCrime(newCrimeId)
 
   return response.status(201).json({ status: 201, response: 'created', crime })
