@@ -1,35 +1,50 @@
-import selectCrime from '../database/queries/crime/select-crime'
-import insertCrime from "../database/queries/crime/insert-crime"
+import findCrime from '../database/queries/crime/find-crime'
+import saveCrime from "../database/queries/crime/save-crime"
 
-import selectVictimByName from "../database/queries/victim/select-victim-by-name"
-import insertVictimCrime from "../database/queries/victim_crime/insert-victim-crime"
-import insertVictim from "../database/queries/victim/insert-victim"
+import findVictimIdByName from "../database/queries/victim/find-victim-id-by-name"
+import saveVictimCrime from "../database/queries/victim_crime/save-victim-crime"
+import insertVictim from "../database/queries/victim/save-victim"
 
-import selectWeaponTypeByName from "../database/queries/weapon_type/select-weapon-type-by-name"
-import insertWeaponType from "../database/queries/weapon_type/insert-weapon-type"
-import selectWeaponByName from '../database/queries/weapon/select-weapon-by-name'
-import insertWeaponCrime from '../database/queries/weapon_crime/insert-weapon-crime'
-import insertWeapon from '../database/queries/weapon/insert-weapon'
+import findWeaponTypeIdByName from "../database/queries/weapon_type/find-weapon-id-type-by-name"
+import saveWeaponType from "../database/queries/weapon_type/save-weapon-type"
+import findWeaponIdByName from '../database/queries/weapon/find-weapon-id-by-name'
+import saveWeaponCrime from '../database/queries/weapon_crime/save-weapon-crime'
+import saveWeapon from '../database/queries/weapon/save-weapon'
+
+import findCriminalIdByName from '../database/queries/criminal/find-criminal-id-by-name'
 
 const timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
+const capitalizeFirstLetter = (words) => {
+  words = words.split(' ')
+  return words.map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
+}
+
 const executeAddCrime = async (request, response) => {
   const { victims, weapons, criminals, crime_type, country } = request.body
-  const newCrime = await insertCrime(country)
+  const newCrimeId = await saveCrime(country)
 
   victims.forEach(async victim => {
-    const newOrExistingVictim = await selectVictimByName(victim) || await insertVictim(victim)
-    await insertVictimCrime( newOrExistingVictim.id_victim, newCrime.id_crime )
+    victim = await capitalizeFirstLetter(victim)
+    const victimId = await findVictimIdByName(victim) || await insertVictim(victim)
+    await saveVictimCrime( victimId, newCrimeId )
   })
 
   weapons.forEach(async weapon => {
-    const newOrExistingWeaponType = await selectWeaponTypeByName(weapon.weapon_type) || await insertWeaponType(weapon.weapon_type)
-    const newOrExistingWeapon = await selectWeaponByName(weapon.weapon) || await insertWeapon(weapon.weapon, newOrExistingWeaponType.id_weapon_type)
-    await insertWeaponCrime( newOrExistingWeapon.id_weapon, newCrime.id_crime )
+    weapon.weapon_type = await capitalizeFirstLetter(weapon.weapon_type)
+    weapon.weapon = await capitalizeFirstLetter(weapon.weapon)
+    const weaponTypeId = await findWeaponTypeIdByName(weapon.weapon_type) || await saveWeaponType(weapon.weapon_type)
+    const weaponId = await findWeaponIdByName(weapon.weapon) || await saveWeapon(weapon.weapon, weaponTypeId)
+    await saveWeaponCrime( weaponId, newCrimeId )
   })
 
+  // await criminals.forEach(async criminal => {
+  //   criminal = await capitalizeFirstLetter(criminal)
+  //   const criminalId = await findCriminalIdByName(criminal)
+  // })
+
   await timeout(1000)
-  const crime = await selectCrime(newCrime.id_crime)
+  const crime = await findCrime(newCrimeId)
 
   return response.status(201).json({ status: 201, response: 'created', crime })
 }
