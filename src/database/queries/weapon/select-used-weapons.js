@@ -1,4 +1,4 @@
-import athonDB from '../config'
+import athonDB from '../../config'
 
 const selectUsedWeapons = async () => {
   return new Promise((resolve, reject) => {

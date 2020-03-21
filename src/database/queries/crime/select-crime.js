@@ -1,10 +1,10 @@
-import athonDB from '../config'
+import athonDB from '../../config'
 
 const formatColumnRows = (columnRows) => {
   return columnRows.length === 1 ? columnRows[0] : [ ...columnRows ]
 }
 
-const selectCrime = async (crime) => {
+const selectCrime = async (crimeId) => {
   return new Promise((resolve, reject) => {
     athonDB.query(`select distinct
         c.id_crime,
@@ -23,7 +23,7 @@ const selectCrime = async (crime) => {
       left join weapon_type wt on w.id_weapon_type = wt.id_weapon_type
       left join criminal cm on cm.id_criminal = cc.id_criminal
       left join crime_type ct on cc.id_crime_type = ct.id_crime_type
-      where c.id_crime = ?`, [crime], (error, results) => {
+      where c.id_crime = ?`, [crimeId], (error, results) => {
         if (error) {
           return reject(error)
         }
@@ -49,7 +49,7 @@ const selectCrime = async (crime) => {
           criminals,
           crimeTypes,
           country,
-          crimeDate
+          crimeDate: new Date(crimeDate)
         }
 
         resolve(crime)
