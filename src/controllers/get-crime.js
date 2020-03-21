@@ -1,4 +1,4 @@
-import selectCrime from "../database/queries/select-crime"
+import selectCrime from "../database/queries/crime/select-crime"
 
 const executeGetCrime = async (request, response) => {
   const crimeId = request.params.id

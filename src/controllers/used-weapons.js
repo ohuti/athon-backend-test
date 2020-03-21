@@ -1,4 +1,4 @@
-import selectUsedWeapons from "../database/queries/select-used-weapons"
+import selectUsedWeapons from "../database/queries/weapon/select-used-weapons"
 
 const executeUsedWeapon = async (request, response) => {
   const weapons = await selectUsedWeapons()
