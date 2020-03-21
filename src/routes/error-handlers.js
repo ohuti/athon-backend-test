@@ -17,5 +17,5 @@ export const exceptionHandler = (error, request, response, next) => {
   }
 
   console.error('[+]', error)
-  response.status(500).json({ status: 500, response: 'internal_server_error' })
+  return response.status(500).json({ status: 500, response: 'internal_server_error' })
 }
