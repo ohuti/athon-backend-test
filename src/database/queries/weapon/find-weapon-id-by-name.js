@@ -7,10 +7,10 @@ const findWeaponIdByName = (weaponName) => {
         return reject(error)
       }
       if(!result.length){
-        resolve(null)
+        return resolve(null)
       }
 
-      resolve(result[0].id_weapon)
+      return resolve(result[0].id_weapon)
     })
   }).catch(error => { throw error })
 }

@@ -9,7 +9,7 @@ const saveCrime = (country) => {
         return reject(error)
       }
 
-      resolve(result.insertId)
+      return resolve(result.insertId)
     })
   }).catch(error => { throw error })
 }

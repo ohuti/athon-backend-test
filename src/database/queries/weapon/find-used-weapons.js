@@ -12,12 +12,15 @@ const findUsedWeapons = async () => {
         if (error) {
           return reject(error)
         }
+        if(!results.length){
+          return resolve(null)
+        }
   
         const weapons = results.map(result => {
           return { weapon: result.weapon, weapon_type: result.weapon_type }
         })
         
-        resolve (weapons)
+        return resolve (weapons)
       }
     )
   }).catch(error => { throw error })

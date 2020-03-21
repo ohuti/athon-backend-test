@@ -7,7 +7,7 @@ const saveWeapon = (weaponName, weaponTypeId) => {
         return reject(error)
       }
 
-      resolve(result)
+      return resolve(result.insertId)
     })
   }).catch(error => { throw error })
 }

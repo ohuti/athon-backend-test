@@ -28,7 +28,7 @@ const findCrime = async (crimeId) => {
           return reject(error)
         }
         if (!results.length) {
-          resolve(null)
+          return resolve(null)
         }
 
         const crimeId = formatColumnRows([...new Set(results.map(result => result.id_crime))])
@@ -52,7 +52,7 @@ const findCrime = async (crimeId) => {
           crimeDate: new Date(crimeDate)
         }
 
-        resolve(crime)
+        return resolve(crime)
       }
     )
   }).catch (error => { throw error })

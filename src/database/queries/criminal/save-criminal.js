@@ -1,8 +1,8 @@
 import athonDB from "../../config"
 
-const insertVictim = (victimName) => {
+const saveCriminal = (criminalName) => {
   return new Promise((resolve, reject) => {
-    athonDB.query(`insert into victim (tx_name) values (?)`, [ victimName ], (error, result) => {
+    athonDB.query(`insert into criminal (tx_name) values (?)`, [ criminalName ], (error, result) => {
       if(error){
         return reject(error)
       }
@@ -12,4 +12,4 @@ const insertVictim = (victimName) => {
   }).catch(error => { throw error })
 }
 
-export default insertVictim
+export default saveCriminal
