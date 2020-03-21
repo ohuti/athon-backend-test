@@ -1,8 +1,8 @@
 import athonDB from "../../config"
 
-const selectWeaponTypeByName = (weaponType) => {
+const findWeaponIdByName = (weaponName) => {
   return new Promise((resolve, reject) => {
-    athonDB.query(`select * from weapon_type where tx_weapon_type = ?`, [ weaponType ], (error, result) => {
+    athonDB.query(`select id_weapon from weapon where tx_model = ?`, [ weaponName ], (error, result) => {
       if(error){
         return reject(error)
       }
@@ -10,9 +10,9 @@ const selectWeaponTypeByName = (weaponType) => {
         resolve(null)
       }
 
-      resolve(result[0])
+      resolve(result[0].id_weapon)
     })
   }).catch(error => { throw error })
 }
 
-export default selectWeaponTypeByName
+export default findWeaponIdByName

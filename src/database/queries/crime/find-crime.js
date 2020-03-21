@@ -4,7 +4,7 @@ const formatColumnRows = (columnRows) => {
   return columnRows.length === 1 ? columnRows[0] : [ ...columnRows ]
 }
 
-const selectCrime = async (crimeId) => {
+const findCrime = async (crimeId) => {
   return new Promise((resolve, reject) => {
     athonDB.query(`select distinct
         c.id_crime,
@@ -58,4 +58,4 @@ const selectCrime = async (crimeId) => {
   }).catch (error => { throw error })
 }
 
-export default selectCrime
+export default findCrime
