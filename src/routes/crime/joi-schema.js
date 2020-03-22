@@ -24,3 +24,12 @@ export const getCrimeSchema = joi.object({
   query: joi.object({ }).required(),
   body: joi.object({ }).required()
 })
+
+export const deleteCrimeSchema = joi.object({
+  params: joi.object({ }).required(),
+  query: joi.object({
+    country: joi.string().when('date', { is: joi.exist(), then: joi.forbidden(), otherwise: joi.required() }),
+    date: joi.date()
+  }).required().error(() => 'You must send country or date. Send both is not allowed!'),
+  body: joi.object({ }).required()
+})

@@ -1,4 +1,3 @@
-import findCrime from '../database/queries/crime/find-crime'
 import saveCrime from "../database/queries/crime/save-crime"
 
 import findVictimIdByName from "../database/queries/victim/find-victim-id-by-name"
@@ -19,9 +18,6 @@ import updateCriminalCrimeCrimeType from '../database/queries/criminal-crime/upd
 
 import findCrimeTypeIdByName from '../database/queries/crime_type/find-crime-type-id-by-name'
 import saveCrimeType from '../database/queries/crime_type/save-crime-type'
-
-
-const timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 const capitalizeFirstLetter = (words) => {
   words = words.split(' ')
@@ -58,10 +54,7 @@ const executeAddCrime = async (request, response) => {
     await updateCriminalCrimeCrimeType(newCrimeId, crimeTypeId)
   })
 
-  await timeout(1500)
-  const crime = await findCrime(newCrimeId)
-
-  return response.status(201).json({ status: 201, response: 'created', crime })
+  return response.status(201).json({ status: 201, response: 'created' })
 }
 
 export default executeAddCrime
