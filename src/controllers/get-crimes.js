@@ -44,7 +44,13 @@ const constructQuery = (requestQuery) => {
 const executeGetCrimes = async (request, response) => {
   const queryFilter = constructQuery(request.query)
 
-  const crimes = await findCrimeWithDetails(queryFilter)  
+  const crimesWithIncompleteInfo = await findCrimeWithDetails(queryFilter)
+  if(!crimesWithIncompleteInfo) {
+    throw { status: 200, response: 'crime(s)_not_found', message: `crimes not found in database with desired filters` }
+  }
+
+  const idsQueryFilter = `where c.id_crime in (${ crimesWithIncompleteInfo.map(crime => crime.crimeId).join(', ') })`
+  const crimes = await findCrimeWithDetails(idsQueryFilter)
   if(!crimes) {
     throw { status: 200, response: 'crime(s)_not_found', message: `crimes not found in database with desired filters` }
   }
