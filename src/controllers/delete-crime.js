@@ -10,7 +10,7 @@ const executeDeleteCrime = async (request, response) => {
   const crimeIds = await findCrime(reference)
   if(!crimeIds) {
     const message = country ? `in ${country}` : `at ${date}`
-    throw { status: 200, response: 'crime(s)_not_found', message: `no crime was found ${message} in database, therefore couldn't be deleted.` }
+    throw { status: 404, response: 'crime(s)_not_found', message: `no crime was found ${message} in database, therefore couldn't be deleted.` }
   }
   crimeIds.forEach(async crimeId => await deleteCrime(crimeId))
 
