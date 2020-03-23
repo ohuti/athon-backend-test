@@ -4,6 +4,7 @@ import './database/config'
 
 import express from 'express'
 import bodyParser from 'body-parser'
+import morgan from 'morgan'
 
 import mainRouter from './routes'
 
@@ -18,5 +19,6 @@ console.log('SERVER LOGS: [+]')
 console.log('DATABASE LOGS: [*]')
 
 app.use(bodyParser.json())
+app.use(morgan('dev'))
 app.use('/', mainRouter)
 app.listen(PORT, onStart())
