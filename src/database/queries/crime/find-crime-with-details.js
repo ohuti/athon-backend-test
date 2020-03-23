@@ -6,7 +6,7 @@ const formatColumnRows = (columnRows) => {
 
 const findCrimeWithDetails = async (filters = '') => {
   return new Promise((resolve, reject) => {
-    athonDB.query(`select distinct
+    athonDB.query(`select
         c.id_crime,
         v.tx_name as victim_name,
         w.tx_model as weapon_name,
@@ -23,7 +23,7 @@ const findCrimeWithDetails = async (filters = '') => {
       left join weapon_type wt on w.id_weapon_type = wt.id_weapon_type
       left join criminal cm on cm.id_criminal = cc.id_criminal
       left join crime_type ct on cc.id_crime_type = ct.id_crime_type
-      ${filters}`, (error, results) => {
+      ${filters} order by c.id_crime`, (error, results) => {
         if (error) {
           return reject(error)
         }
