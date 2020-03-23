@@ -54,7 +54,7 @@ const executeAddCrime = async (request, response) => {
     await updateCriminalCrimeCrimeType(newCrimeId, crimeTypeId)
   })
 
-  return response.status(201).json({ status: 201, response: 'created' })
+  return response.status(201).json({ status: 201, response: 'created', crimeId: newCrimeId })
 }
 
 export default executeAddCrime

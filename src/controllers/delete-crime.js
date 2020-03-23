@@ -14,7 +14,7 @@ const executeDeleteCrime = async (request, response) => {
   }
   crimeIds.forEach(async crimeId => await deleteCrime(crimeId))
 
-  return response.status(200).json({ status: 200, response: 'OK' })
+  return response.status(200).json({ status: 200, response: 'OK', message: `crime(s) ${crimeIds.join(', ')} successfully deleted.` })
 }
 
 export default executeDeleteCrime
