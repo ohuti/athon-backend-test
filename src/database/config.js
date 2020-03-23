@@ -11,7 +11,7 @@ const athonDB = createConnection({
 
 athonDB.connect(error => {
   if(error) {
-    return console.error(error)
+    return console.error('[*] ', error)
   }
   
   console.log('[*] MySQL Connected')

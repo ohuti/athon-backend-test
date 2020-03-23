@@ -9,7 +9,7 @@ import morgan from 'morgan'
 import mainRouter from './routes'
 
 const onStart = () => {
-  console.info(`[*] API ${process.env.API_VERSION} RUNNING ON PORT ${process.env.PORT} IN ${process.env.ENVIRONMENT} MODE`)
+  console.info(`[+] API ${process.env.API_VERSION} RUNNING ON PORT ${process.env.PORT} IN ${process.env.ENVIRONMENT} MODE`)
 }
 
 const PORT = process.env.PORT
