@@ -1,11 +1,12 @@
-import selectCrime from "../database/queries/crime/find-crime-with-details"
+import findCrimeWithDetails from "../database/queries/crime/find-crime-with-details"
 
 const executeGetCrime = async (request, response) => {
   const crimeId = request.params.id
+  const queryFilter = `where c.id_crime = ${crimeId}`
 
-  const crime = await selectCrime(crimeId)  
+  const crime = await findCrimeWithDetails(queryFilter)  
   if(!crime) {
-    throw { status: 404, response: 'crime_not_found', message: `crime ${crimeId} not found in database` }
+    throw { status: 200, response: 'crime_not_found', message: `crime ${crimeId} not found in database` }
   }
     
   return response.status(200).json({
