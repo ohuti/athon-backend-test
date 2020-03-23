@@ -33,3 +33,14 @@ export const deleteCrimeSchema = joi.object({
   }).required().error(() => 'You must send country or date. Send both is not allowed!'),
   body: joi.object({ }).required()
 })
+
+export const getCrimesSchema = joi.object({
+  params: joi.object({ }).required(),
+  query: joi.object({
+    start_date: joi.date().error(() => 'start_date and end_date must co-exist, it is not possible to send one or another'),
+    end_date: joi.date().when('start_date', { is: joi.exist(), then: joi.required(), otherwise: joi.forbidden() }).error(() => 'start_date and end_date must co-exist, it is not possible to send one or another'),
+    weapons: joi.array().items(joi.string().max(45)),
+    criminals: joi.array().items(joi.string().max(45))
+  }).required(),
+  body: joi.object({ }).required()
+})
